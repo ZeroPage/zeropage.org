@@ -1,0 +1,60 @@
+## Start of configuration add by letsencrypt container
+location ^~ /.well-known/acme-challenge/ {
+    auth_basic off;
+    allow all;
+    root /usr/share/nginx/html;
+    try_files $uri =404;
+    break;
+}
+## End of configuration add by letsencrypt container
+# reserve XE Layout Template Source File (*.html)
+rewrite ^/(layouts|m.layouts)/(.+)/(.+).html$ /index.php last;
+
+# conf, query, schema
+rewrite ^/(modules|addons|widgets)/(.+)/(conf|queries|schemas)/(.+).xml$ /index.php last;
+
+# static files
+rewrite ^/(.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) /files/$2/$3 last;
+rewrite ^/(.+)/(files|modules|widgets|widgetstyles|layouts|m.layouts|addons)/(.*) /$2/$3 last;
+
+# rss, blogAPI
+rewrite ^/(rss|atom)$ /index.php?module=rss&act=$1 last;
+rewrite ^/([a-zA-Z0-9_]+)/(rss|atom|api)$ /index.php?mid=$1&act=$2 last;
+rewrite ^/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)$ /index.php?vid=$1&mid=$2&act=$3 last;
+
+# trackback
+rewrite ^/([0-9]+)/(.+)/trackback$ /index.php?document_srl=$1&key=$2&act=trackback last;
+rewrite ^/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ /index.php?vid=$1&document_srl=$2&key=$3&act=trackback last;
+
+# administrator page
+rewrite ^/admin/?$ /index.php?module=admin last;
+
+# document permanent link
+rewrite ^/([0-9]+)$ /index.php?document_srl=$1 last;
+
+# mid link
+rewrite ^/([a-zA-Z0-9_]+)/?$ /index.php?mid=$1 last;
+
+# mid + document link
+rewrite ^/([a-zA-Z0-9_]+)/([0-9]+)$ /index.php?mid=$1&document_srl=$2 last;
+
+# vid + mid link
+rewrite ^/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/?$ /index.php?vid=$1&mid=$2 last;
+
+# vid + mid + document link
+rewrite ^/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)$ /index.php?vid=$1&mid=$2&document_srl=$3 last;
+
+# mid + entry title
+rewrite ^/([a-zA-Z0-9_]+)/entry/(.+)$ /index.php?mid=$1&entry=$2 last;
+
+# vid + mid + entry title
+rewrite ^/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ /index.php?vid=$1&mid=$2&entry=$3 last;
+
+location ~ [^/]\.php(/|$) {
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+    if (!-f $document_root$fastcgi_script_name) {
+        return 404;
+    }
+
+    fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+}
