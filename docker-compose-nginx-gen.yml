@@ -74,7 +74,7 @@ services:
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   db:
-    image: mariadb
+    image: mariadb:10.3
     container_name: mariadb
     restart: always
     user: "27:27"
