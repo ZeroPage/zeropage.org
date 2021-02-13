@@ -1,1 +1,108 @@
-docker-compose-nginx-gen.yml
+version: '3'
+services:
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/htpasswd:/etc/nginx/htpasswd:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/vhost.d:/etc/nginx/vhost.d:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - /data/html:/var/www/html:ro
+
+  nginx-gen:
+    image: jwilder/docker-gen
+    container_name: nginx-gen
+    restart: always
+    user: "1001:993"
+    command: -notify-sighup nginx -watch /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:rw
+      - ./nginx/htpasswd:/etc/nginx/htpasswd:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/vhost.d:/etc/nginx/vhost.d:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./docker-gen/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
+    environment:
+      - DEFAULT_HOST=zeropage.org
+
+  nginx-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-letsencrypt
+    restart: always
+    #user: "1000:993"
+    volumes:
+      - ./nginx/certs:/etc/nginx/certs:rw
+      - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
+      - ./nginx/html:/usr/share/nginx/html:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_DOCKER_GEN_CONTAINER=nginx-gen
+      - NGINX_PROXY_CONTAINER=nginx
+
+  xpressengine:
+    build: ./xpressengine
+    container_name: xpressengine
+    restart: always
+    volumes:
+      - /data/html/xpressengine:/var/www/html:ro
+      - /data/html/xpressengine/files:/var/www/html/files:rw
+    environment:
+      - VIRTUAL_HOST=zeropage.org,www.zeropage.org
+      - LETSENCRYPT_HOST=zeropage.org,www.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
+  moniwiki:
+    build: ./moniwiki
+    container_name: moniwiki
+    restart: always
+    volumes:
+      - /data/html/moniwiki:/var/www/html:ro
+      - /data/html/moniwiki/data:/var/www/html/data:rw
+      - /data/html/moniwiki/pds:/var/www/html/pds:rw
+      - /data/html/moniwiki/_cache:/var/www/html/_cache:rw
+    environment:
+      - VIRTUAL_HOST=wiki.zeropage.org
+      - LETSENCRYPT_HOST=wiki.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
+  db:
+    image: mariadb:10.3.7
+    container_name: mariadb
+    restart: always
+    user: "27:27"
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql:rw
+      - /var/run/mysqld:/var/run/mysqld:rw
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: myadmin
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - VIRTUAL_HOST=pma.zeropage.org
+      - LETSENCRYPT_HOST=pma.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - VIRTUAL_HOST=adminer.zeropage.org
+      - LETSENCRYPT_HOST=adminer.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
