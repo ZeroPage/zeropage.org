@@ -55,8 +55,8 @@ services:
       - /data/html/xpressengine:/var/www/html:ro
       - /data/html/xpressengine/files:/var/www/html/files:rw
     environment:
-      - VIRTUAL_HOST=zeropage.org,www.zeropage.org
-      - LETSENCRYPT_HOST=zeropage.org,www.zeropage.org
+      - VIRTUAL_HOST=zeropage.org,www.zeropage.org,zp.ai
+      - LETSENCRYPT_HOST=zeropage.org,www.zeropage.org,zp.ai
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   moniwiki:
