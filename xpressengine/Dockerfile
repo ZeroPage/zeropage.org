@@ -8,5 +8,5 @@ RUN apt update && apt install -y \
     && docker-php-ext-configure intl \
     && docker-php-ext-install gd mysqli json pdo_mysql opcache exif fileinfo intl zip \
     && docker-php-ext-enable ssh2 intl apcu \
-    && a2enmod rewrite
-
+    && a2enmod rewrite \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
