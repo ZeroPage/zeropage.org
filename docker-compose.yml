@@ -55,8 +55,8 @@ services:
       - /data/html/xpressengine:/var/www/html:ro
       - /data/html/xpressengine/files:/var/www/html/files:rw
     environment:
-      - VIRTUAL_HOST=zeropage.org,www.zeropage.org,zp.ai
-      - LETSENCRYPT_HOST=zeropage.org,www.zeropage.org,zp.ai
+      - VIRTUAL_HOST=zeropage.org,www.zeropage.org
+      - LETSENCRYPT_HOST=zeropage.org,www.zeropage.org
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   moniwiki:
@@ -71,6 +71,26 @@ services:
     environment:
       - VIRTUAL_HOST=wiki.zeropage.org
       - LETSENCRYPT_HOST=wiki.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
+  mattermost:
+    image: mattermost/mattermost-team-edition
+    container_name: mattermost
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - /data/html/mattermost/config:/mattermost/config:rw
+      - /data/html/mattermost/data:/mattermost/data:rw
+      - /data/html/mattermost/logs:/mattermost/logs:rw
+      - /data/html/mattermost/plugins:/mattermost/plugins:rw
+      - /data/html/mattermost/client/plugins:/mattermost/client/plugins:rw
+    environment:
+      - MM_SQLSETTINGS_DRIVERNAME=mysql
+      - MM_SQLSETTINGS_DATASOURCE
+      - VIRTUAL_HOST=chat.zeropage.org,chat.zp.ai,zp.ai
+      - VIRTUAL_PORT=8065
+      - LETSENCRYPT_HOST=chat.zeropage.org,chat.zp.ai,zp.ai
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   db:
