@@ -88,9 +88,9 @@ services:
     environment:
       - MM_SQLSETTINGS_DRIVERNAME=mysql
       - MM_SQLSETTINGS_DATASOURCE
-      - VIRTUAL_HOST=chat.zeropage.org,chat.zp.ai,zp.ai
+      - VIRTUAL_HOST=chat.zeropage.org,chat.zp.ai
       - VIRTUAL_PORT=8065
-      - LETSENCRYPT_HOST=chat.zeropage.org,chat.zp.ai,zp.ai
+      - LETSENCRYPT_HOST=chat.zeropage.org,chat.zp.ai
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   db:
