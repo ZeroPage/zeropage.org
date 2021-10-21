@@ -37,7 +37,6 @@ services:
     image: nginxproxy/acme-companion
     container_name: nginx-letsencrypt
     restart: always
-    #user: "1000:993"
     volumes:
       - ./nginx/certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
