@@ -17,7 +17,7 @@ services:
       - /data/html:/var/www/html:ro
 
   nginx-gen:
-    image: jwilder/docker-gen
+    image: nginxproxy/docker-gen
     container_name: nginx-gen
     restart: always
     user: "1001:993"
@@ -34,7 +34,7 @@ services:
       - DEFAULT_HOST=zeropage.org
 
   nginx-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
+    image: nginxproxy/acme-companion
     container_name: nginx-letsencrypt
     restart: always
     #user: "1000:993"
