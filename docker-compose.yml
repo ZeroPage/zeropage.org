@@ -50,6 +50,8 @@ services:
     build: ./xpressengine
     container_name: xpressengine
     restart: always
+    depends_on:
+      - db
     volumes:
       - /data/html/xpressengine:/var/www/html:ro
       - /data/html/xpressengine/files:/var/www/html/files:rw
