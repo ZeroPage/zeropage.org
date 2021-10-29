@@ -115,14 +115,14 @@ services:
       - LETSENCRYPT_HOST=pma.zeropage.org
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - VIRTUAL_HOST=adminer.zeropage.org
-      - LETSENCRYPT_HOST=adminer.zeropage.org
-      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+  # adminer:
+  #   image: adminer
+  #   container_name: adminer
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - VIRTUAL_HOST=adminer.zeropage.org
+  #     - LETSENCRYPT_HOST=adminer.zeropage.org
+  #     - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
