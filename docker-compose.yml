@@ -75,7 +75,7 @@ services:
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   mattermost:
-    image: mattermost/mattermost-team-edition:6.1
+    image: mattermost/mattermost-team-edition:6.3
     container_name: mattermost
     restart: always
     depends_on:
