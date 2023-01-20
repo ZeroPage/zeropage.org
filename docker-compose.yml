@@ -86,9 +86,11 @@ services:
       - /data/html/mattermost/logs:/mattermost/logs:rw
       - /data/html/mattermost/plugins:/mattermost/plugins:rw
       - /data/html/mattermost/client/plugins:/mattermost/client/plugins:rw
+      - /data/html/mattermost/bleve-indexes:/mattermost/bleve-indexes:rw
     environment:
       - MM_SQLSETTINGS_DRIVERNAME=mysql
       - MM_SQLSETTINGS_DATASOURCE
+      - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
       - VIRTUAL_HOST=chat.zeropage.org,chat.zp.ai
       - VIRTUAL_PORT=8065
       - LETSENCRYPT_HOST=chat.zeropage.org,chat.zp.ai
