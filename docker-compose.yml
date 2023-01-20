@@ -80,6 +80,8 @@ services:
     restart: always
     depends_on:
       - mysql-mattermost
+    ports:
+      - "8443:8443/udp"
     volumes:
       - /data/html/mattermost/config:/mattermost/config:rw
       - /data/html/mattermost/data:/mattermost/data:rw
