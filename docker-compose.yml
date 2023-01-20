@@ -112,7 +112,7 @@ services:
     image: mysql:8.0
     container_name: mysql-mattermost
     restart: always
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --default-authentication-plugin=mysql_native_password
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --skip-character-set-client-handshake --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql-mattermost/etc/mysql/conf.d/mattermost-search.cnf:/etc/mysql/conf.d/mattermost-search.cnf:ro
       - /var/lib/mysql_mattermost:/var/lib/mysql:rw
