@@ -79,7 +79,7 @@ services:
     container_name: mattermost
     restart: always
     depends_on:
-      - db-mattermost
+      - mysql-mattermost
     volumes:
       - /data/html/mattermost/config:/mattermost/config:rw
       - /data/html/mattermost/data:/mattermost/data:rw
@@ -106,20 +106,19 @@ services:
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
 
-  db-mattermost:
+  mysql-mattermost:
     image: mysql:8.0
     container_name: mysql-mattermost
     restart: always
-    user: "27:27"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --default-authentication-plugin=mysql_native_password
     volumes:
-      - ./mysql-mattermost/conf.d/mattermost-search.cnf:/etc/mysql/conf.d/mattermost-search.cnf:ro
+      - ./mysql-mattermost/etc/mysql/conf.d/mattermost-search.cnf:/etc/mysql/conf.d/mattermost-search.cnf:ro
       - /var/lib/mysql_mattermost:/var/lib/mysql:rw
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=mattermost
       - MYSQL_USER=mattermost
-      - MYSQL_PASSWORD
+      - MYSQL_PASSWORD=${MM_MYSQL_PASSWORD}
 
   myadmin:
     image: phpmyadmin/phpmyadmin
