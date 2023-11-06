@@ -82,6 +82,8 @@ services:
       - mysql-mattermost
     ports:
       - "8443:8443/udp"
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - /data/html/mattermost/config:/mattermost/config:rw
       - /data/html/mattermost/data:/mattermost/data:rw
