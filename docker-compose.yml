@@ -75,7 +75,7 @@ services:
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   mattermost:
-    image: mattermost/mattermost-team-edition:8.1
+    image: mattermost/mattermost-team-edition:9.5
     container_name: mattermost
     restart: always
     depends_on:
@@ -135,6 +135,21 @@ services:
     environment:
       - VIRTUAL_HOST=pma.zeropage.org
       - LETSENCRYPT_HOST=pma.zeropage.org
+      - LETSENCRYPT_EMAIL=zeropage@zeropage.org
+
+  portal:
+    image: node:16.20.0
+    command: npm run dev
+    volumes:
+      - ./portal/ZP-portal-page:/portal
+    working_dir: /portal
+    ports:
+      - "3000:3000"
+    restart: always
+    container_name: portal
+    environment:
+      - VIRTUAL_HOST=portal.zeropage.org
+      - LETSENCRYPT_HOST=portal.zeropage.org
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   # adminer:
