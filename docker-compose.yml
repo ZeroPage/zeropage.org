@@ -82,6 +82,7 @@ services:
       - mysql-mattermost
     ports:
       - "8443:8443/udp"
+      - "8065:8065/udp"
     security_opt:
       - seccomp:unconfined
     volumes:
@@ -110,7 +111,7 @@ services:
       - /var/lib/mysql:/var/lib/mysql:rw
       # - /var/run/mysqld:/var/run/mysqld:rw
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_PASSWORD=${MM_MYSQL_PASSWORD}
 
   mysql-mattermost:
     image: mysql:8.0
@@ -138,11 +139,7 @@ services:
       - LETSENCRYPT_EMAIL=zeropage@zeropage.org
 
   portal:
-    image: node:16.20.0
-    command: npm run dev
-    volumes:
-      - ./portal/ZP-portal-page:/portal
-    working_dir: /portal
+    image: ghcr.io/zeropage/zp-portal-page:latest
     ports:
       - "3000:3000"
     restart: always
@@ -162,4 +159,3 @@ services:
   #     - VIRTUAL_HOST=adminer.zeropage.org
   #     - LETSENCRYPT_HOST=adminer.zeropage.org
   #     - LETSENCRYPT_EMAIL=zeropage@zeropage.org
-
