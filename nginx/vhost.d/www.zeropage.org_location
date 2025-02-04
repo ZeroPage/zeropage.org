@@ -1,5 +1,0 @@
-fastcgi_index index.php;
-fastcgi_read_timeout 300;
-
-proxy_read_timeout 300;
-
