@@ -246,6 +246,8 @@ services:
       - "traefik.http.routers.cz_portal_be.entrypoints=websecure"
       - "traefik.http.routers.cz_portal_be.tls.certresolver=myresolver"
       - "traefik.http.services.cz_portal_be.loadbalancer.server.port=5000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
   cz_portal_fe:
     image: ghcr.io/zeropage/cz_portal_fe:latest
     container_name: cz_portal_fe
