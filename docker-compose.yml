@@ -246,8 +246,8 @@ services:
       - "traefik.http.routers.cz_portal_be.entrypoints=websecure"
       - "traefik.http.routers.cz_portal_be.tls.certresolver=myresolver"
       - "traefik.http.services.cz_portal_be.loadbalancer.server.port=5000"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Seoul
   cz_portal_fe:
     image: ghcr.io/zeropage/cz_portal_fe:latest
     container_name: cz_portal_fe
@@ -256,6 +256,7 @@ services:
       - "4173:4173"
     environment:
       - NODE_ENV=production
+      - TZ=Asia/Seoul
       - VITE_API_URL=https://api.zeropage.org
     labels:
       - "traefik.enable=true"
