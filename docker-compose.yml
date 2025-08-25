@@ -237,6 +237,9 @@ services:
       - "5000:5000"
     depends_on:
       - redis
+      - db
+    env_file:
+      - .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nest-project.rule=Host(`clug.zeropage.org`)"
