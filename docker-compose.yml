@@ -103,7 +103,7 @@ services:
     restart: always
     user: "27:27"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake
-#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --skip-grant-tables --skip-networking
+    #    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --skip-grant-tables --skip-networking
     volumes:
       - /var/lib/mysql:/var/lib/mysql:rw
     environment:
@@ -163,7 +163,7 @@ services:
       - MYSQL_USER=mediawiki
       - MYSQL_PASSWORD=${MYSQL2024_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL2024_ROOT_PASSWORD}
-#    초기에 1개의 사용자만 자동으로 생성할 수 있습니다. keycloak을 위한 계정은 직접 생성하여야합니다.
+  #    초기에 1개의 사용자만 자동으로 생성할 수 있습니다. keycloak을 위한 계정은 직접 생성하여야합니다.
   mediawiki:
     image: mediawiki:1.39.8
     container_name: mediawiki
@@ -189,18 +189,18 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.2
     command:
-#      - "-v"
+      #      - "-v"
       - "start"
-#      - "build"
-#      - "--verbose"
-#      - "--optimized"
-#      - "start"
-#      - "--hostname=https://sso.zeropage.org"
-#      - "--hostname-admin=https://sso2.zeropage.org"
-#      - "--hostname-strict=false"
+    #      - "build"
+    #      - "--verbose"
+    #      - "--optimized"
+    #      - "start"
+    #      - "--hostname=https://sso.zeropage.org"
+    #      - "--hostname-admin=https://sso2.zeropage.org"
+    #      - "--hostname-strict=false"
     environment:
       KC_HOSTNAME: https://sso.zeropage.org
-#      KC_HOSTNAME_ADMIN: https://sso2.zeropage.org
+      #      KC_HOSTNAME_ADMIN: https://sso2.zeropage.org
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -211,7 +211,7 @@ services:
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
       PROXY_ADDRESS_FORWARDING: true
- #     KC_PROXY: edge
+    #     KC_PROXY: edge
     ports:
       - 8080:8080
       - 8443:8443
@@ -229,3 +229,25 @@ services:
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
     volumes:
       - /data/html/keycloak:/opt/keycloak
+  cz_portal_BE:
+    image: ghcr.io/ZeroPage/cz_portal_BE
+    container_name: cz_portal_BE
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nest-project.rule=Host(`clug.zeropage.org`)"
+      - "traefik.http.routers.nest-project.entrypoints=websecure"
+      - "traefik.http.routers.nest-project.tls.certresolver=myresolver"
+      - "traefik.http.services.nest-project.loadbalancer.server.port=5000"
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
