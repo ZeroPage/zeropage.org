@@ -229,7 +229,7 @@ services:
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
     volumes:
       - /data/html/keycloak:/opt/keycloak
-  cz_portal_BE:
+  cz_portal_be:
     image: ghcr.io/zeropage/cz_portal_be
     container_name: cz_portal_be
     restart: always
