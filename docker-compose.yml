@@ -230,8 +230,8 @@ services:
     volumes:
       - /data/html/keycloak:/opt/keycloak
   cz_portal_BE:
-    image: ghcr.io/ZeroPage/cz_portal_BE
-    container_name: cz_portal_BE
+    image: ghcr.io/zeropage/cz_portal_be
+    container_name: cz_portal_be
     restart: always
     ports:
       - "5000:5000"
