@@ -251,7 +251,7 @@ services:
     container_name: cz_portal_fe
     restart: always
     ports:
-      - "3000:4173"
+      - "4173:4173"
     environment:
       - NODE_ENV=production
       - VITE_API_URL=https://api.zeropage.org
