@@ -242,10 +242,25 @@ services:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nest-project.rule=Host(`clug.zeropage.org`)"
+      - "traefik.http.routers.nest-project.rule=Host(`api.zeropage.org`)"
       - "traefik.http.routers.nest-project.entrypoints=websecure"
       - "traefik.http.routers.nest-project.tls.certresolver=myresolver"
       - "traefik.http.services.nest-project.loadbalancer.server.port=5000"
+  cz_portal_fe:
+    image: ghcr.io/zeropage/cz_portal_fe:latest
+    container_name: cz_portal_fe
+    restart: always
+    ports:
+      - "3000:4173"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=https://api.zeropage.org
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vue-project.rule=Host(`clug.zeropage.org`)"
+      - "traefik.http.routers.vue-project.entrypoints=websecure"
+      - "traefik.http.routers.vue-project.tls.certresolver=myresolver"
+      - "traefik.http.services.vue-project.loadbalancer.server.port=4173"
   redis:
     image: redis:6-alpine
     container_name: redis
