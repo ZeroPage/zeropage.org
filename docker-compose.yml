@@ -108,6 +108,7 @@ services:
       - /var/lib/mysql:/var/lib/mysql:rw
     environment:
       - MYSQL_PASSWORD=${MM_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MM_MYSQL_PASSWORD}
 
   mysql-mattermost:
     image: mysql:8.0
