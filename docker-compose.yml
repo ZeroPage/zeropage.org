@@ -269,6 +269,7 @@ services:
       - "traefik.http.routers.cz_portal_fe.entrypoints=websecure"
       - "traefik.http.routers.cz_portal_fe.tls.certresolver=myresolver"
       - "traefik.http.services.cz_portal_fe.loadbalancer.server.port=4173"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
   redis:
     image: redis:6-alpine
     container_name: redis
