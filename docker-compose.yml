@@ -246,6 +246,11 @@ services:
       - "traefik.http.routers.cz_portal_be.entrypoints=websecure"
       - "traefik.http.routers.cz_portal_be.tls.certresolver=myresolver"
       - "traefik.http.services.cz_portal_be.loadbalancer.server.port=5000"
+    volumes:
+      # 로그 디렉토리를 호스트와 마운트
+      - ./logs:/usr/src/app/logs:rw
+      # 또는 named volume 사용
+      # - app_logs:/usr/src/app/logs
     environment:
       - TZ=Asia/Seoul
   cz_portal_fe:
