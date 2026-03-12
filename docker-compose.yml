@@ -265,7 +265,7 @@ services:
       - VITE_API_URL=https://api.zeropage.org
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cz_portal_fe.rule=Host(`clug.zeropage.org`)"
+      - "traefik.http.routers.cz_portal_fe.rule=Host(`clug.zeropage.org`) || Host(`lounge.zeropage.org`)"
       - "traefik.http.routers.cz_portal_fe.entrypoints=websecure"
       - "traefik.http.routers.cz_portal_fe.tls.certresolver=myresolver"
       - "traefik.http.services.cz_portal_fe.loadbalancer.server.port=4173"
