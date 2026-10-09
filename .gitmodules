@@ -1,3 +1,7 @@
 [submodule "portal/ZP-portal-page"]
-	path = portal/ZP-portal-page
+	path = legacy/portal/ZP-portal-page
 	url = https://github.com/ZeroPage/ZP-portal-page
+[submodule "platform"]
+	path = platform
+	url = https://github.com/ZeroPage/zeropage-platform.git
+	branch = feat/service-sso-canonical
