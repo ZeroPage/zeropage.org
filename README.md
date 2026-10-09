@@ -4,7 +4,7 @@ zeropage.org 서버를 띄우는 저장소다. 새 운영 스택의 compose 파�
 
 | 위치 | 내용 |
 | --- | --- |
-| `platform/` | zeropage-platform 서브모듈. 실행·갱신·재구축 안내는 [`platform/deploy/OPERATIONS.md`](https://github.com/ZeroPage/zeropage-platform/blob/feat/service-sso-canonical/deploy/OPERATIONS.md) |
+| `platform/` | zeropage-platform 서브모듈. 실행·갱신·재구축 안내는 [`platform/deploy/OPERATIONS.md`](https://github.com/ZeroPage/zeropage-platform/blob/main/deploy/OPERATIONS.md) |
 | `legacy/` | 이관 전 서버(traefik, XpressEngine, MoniWiki, Mattermost 9.11, MediaWiki·Keycloak on MySQL 등)의 compose와 Dockerfile. 기록용이며 새 스택에서는 쓰지 않는다 |
 
 ## 새 스택 띄우기

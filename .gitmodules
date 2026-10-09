@@ -4,4 +4,4 @@
 [submodule "platform"]
 	path = platform
 	url = https://github.com/ZeroPage/zeropage-platform.git
-	branch = feat/service-sso-canonical
+	branch = main
